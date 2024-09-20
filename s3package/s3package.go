@@ -74,9 +74,10 @@ func (s *Storage) DownloadFile(key, downloadPath, bucket_name string) error {
 }
 
 // ListFiles lista los archivos en el bucket de S3 (o MinIO)
-func (s *Storage) ListFiles(bucket_name string) ([]*s3.Object, error) {
+func (s *Storage) ListFiles(bucket_name, key string) ([]*s3.Object, error) {
 	result, err := s.S3.ListObjectsV2(&s3.ListObjectsV2Input{
 		Bucket: aws.String(bucket_name),
+		Prefix: aws.String(key),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("error listando archivos: %w", err)
